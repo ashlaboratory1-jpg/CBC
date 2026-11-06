@@ -6,9 +6,9 @@
 <title>LIMS AutoLab Suite</title>
 <meta name="theme-color" content="#059669">
 <meta name="color-scheme" content="light">
-<link rel="manifest" href="/manifest.webmanifest">
-<link rel="icon" href="/icons/icon-192.png">
-<link rel="apple-touch-icon" href="/icons/icon-192.png">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
 <style>
 :root{--g:#059669;--g2:#10b981;--gd:#047857;--bg:#f4f7f6;--card:#fff;--line:#e5eae8;--t:#0f1f1a;--m:#64748b;--r:16px}
 *{box-sizing:border-box;margin:0}
@@ -76,7 +76,25 @@ h2{font-size:21px;letter-spacing:-.4px;margin:4px 0 4px}
 .sp{display:flex;gap:12px;padding:12px;border:1px solid var(--line);border-radius:12px;margin-top:10px}
 .sp b.n{width:28px;height:28px;border-radius:50%;background:var(--g);color:#fff;display:grid;place-items:center;flex:none;font-size:13px}
 .sp p{font-size:12.5px;color:var(--m)}.sp strong{font-size:13.5px}
-@media(max-width:900px){.wrap{grid-template-columns:1fr;padding:14px}header{padding:10px 14px}.sub,.hide-m{display:none}.stats{grid-template-columns:1fr 1fr 1fr}.stat div{font-size:15px}}
+.guide{padding:22px;margin-top:16px}
+.chip{display:inline-flex;align-items:center;gap:6px;padding:5px 12px;border-radius:99px;background:#f1f5f9;font-size:12px;font-weight:600;color:var(--m);max-width:100%;word-break:break-all}
+.flow{display:flex;flex-wrap:wrap;gap:10px;margin:16px 0 12px;align-items:stretch}
+.pk{--cl:#059669;flex:1;min-width:170px;position:relative;display:flex;align-items:center;gap:20px;padding:18px 14px 18px 18px;border:1px solid var(--line);border-top:3px solid var(--cl);border-radius:14px;background:#fff}
+.pk.b{--cl:#0284c7}.pk.c{--cl:#7c3aed}
+.pk .no{position:absolute;top:-12px;left:12px;width:24px;height:24px;border-radius:50%;background:var(--cl);color:#fff;display:grid;place-items:center;font-size:12px;font-weight:700;box-shadow:0 0 0 3px #fff}
+.sheet{width:44px;height:58px;flex:none;margin:0 10px 10px 0;background:#fff;border:1.5px solid var(--cl);border-radius:5px;padding:9px 7px;display:flex;flex-direction:column;gap:5px;box-shadow:5px 5px 0 -1px #fff,5px 5px 0 0 var(--cl),10px 10px 0 -1px #fff,10px 10px 0 0 var(--cl)}
+.sheet i{height:3px;border-radius:2px;background:var(--cl);opacity:.3}.sheet i:first-child{opacity:1;width:60%}
+.cnt{font-size:30px;font-weight:800;line-height:1;color:var(--cl);letter-spacing:-1px}
+.lb{font-size:12px;color:var(--m);font-weight:600;margin-top:4px}
+.ar{align-self:center;color:#94a3b8;font-size:22px}
+.tot{display:flex;justify-content:space-between;align-items:center;padding:12px 16px;border-radius:12px;background:#ecfdf5;border:1px solid #a7f3d0;font-weight:700;color:var(--gd)}
+.tot b{font-size:22px;letter-spacing:-.5px}
+.mis{margin-top:14px;padding:14px 16px;border-radius:12px;background:#fffbeb;border:1px solid #fde68a}
+.mis h4{font-size:13px;color:#92400e;margin-bottom:8px}
+.mis ol{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;list-style:none;padding:0;counter-reset:m}
+.mis li{counter-increment:m;font-size:12.5px;color:#78350f;display:flex;gap:8px;align-items:flex-start}
+.mis li::before{content:counter(m);flex:none;width:20px;height:20px;border-radius:50%;background:#f59e0b;color:#fff;font-size:11px;font-weight:700;display:grid;place-items:center}
+@media(max-width:900px){.mis ol{grid-template-columns:1fr}.ar{display:none}.wrap{grid-template-columns:1fr;padding:14px}header{padding:10px 14px}.sub,.hide-m{display:none}.stats{grid-template-columns:1fr 1fr 1fr}.stat div{font-size:15px}}
 </style>
 </head>
 <body>
@@ -97,6 +115,16 @@ h2{font-size:21px;letter-spacing:-.4px;margin:4px 0 4px}
       <button id="go" onclick="start()"><svg viewBox="0 0 24 24" style="width:20px;height:20px"><path d="M6 4l14 8-14 8z" fill="currentColor"/></svg><span id="gt">Launch automation</span></button>
       <div class="hint">Starts <code>CBC_ESR_Platelet.py</code> through the local bridge · Press <b>Space</b> to launch</div>
       <div class="steps" id="steps"><div class="st"><b>1</b>Bridge</div><div class="st"><b>2</b>Extract</div><div class="st"><b>3</b>Upload</div><div class="st"><b>4</b>Done</div></div>
+    </section>
+    <section class="card guide">
+      <div class="row"><div><div class="eyebrow">Print guide</div><h2 style="font-size:18px">CBC draft paper sorting</h2>
+        <div class="sub">Stack the printed Print Layout pages in this order.</div></div>
+        <span class="chip" id="gf">No file yet</span></div>
+      <div class="flow" id="flow"></div>
+      <div id="gwhy" class="sub" style="color:#b45309;margin:-4px 0 10px" hidden></div>
+      <div class="tot"><span>Total papers</span><b id="gtot">—</b></div>
+      <div class="mis"><h4>⚠ If papers are misprinted</h4>
+        <ol><li>Immediately remove the paper.</li><li>Restart the printer.</li><li>Reprint the misprinted papers from the Sysmex machine and try printing again.</li></ol></div>
     </section>
     <div class="stats">
       <div class="card stat"><small>Last sync</small><div id="s1">—</div></div>
@@ -167,12 +195,35 @@ async function start(){
       $('gt').textContent='Running… '+Math.round((Date.now()-t0)/1e3)+'s';
       if(s.message&&s.message!==last){log(s.message);last=s.message;if(/Upload/i.test(s.message))step(2)}
       if(s.state==='success'){step(4);badge('Synced','ok');log('Done — report synced to cloud.','#6ee7b7');
-        $('s2').textContent=Math.round((Date.now()-t0)/1e3)+'s';await load();toast('Report ready ✓');
-        if('Notification'in window&&Notification.permission==='granted')new Notification('LIMS AutoLab',{body:s.message,icon:'/icons/icon-192.png'});break}
+        $('s2').textContent=Math.round((Date.now()-t0)/1e3)+'s';await load();loadGuide();toast('Report ready ✓');
+        if('Notification'in window&&Notification.permission==='granted')new Notification('LIMS AutoLab',{body:s.message,icon:'icon-192.png'});break}
       if(s.state==='error')throw new Error(s.message);
       if(s.state==='idle')throw new Error('Bridge restarted during the run.')}
   }catch(e){log('ERROR: '+e.message,'#fda4af');badge('Failed','err');step(-1);toast('Run failed')}
   finally{go.disabled=false;$('gt').textContent='Launch automation';running=false}}
+
+
+const GK='autolab_guide';
+function drawGuide(d,cached){
+  const v=k=>d&&d[k]!=null?d[k]:'—';
+  const T=[['','Indoor CBC papers','indoor'],['b','Outdoor CBC papers','outdoor'],['c','Only PBF papers','pbf']];
+  $('flow').innerHTML=T.map((t,i)=>(i?'<div class="ar">›</div>':'')+`<div class="pk ${t[0]}"><span class="no">${i+1}</span><div class="sheet"><i></i><i></i><i></i></div><div><div class="cnt">${v(t[2])}</div><div class="lb">${t[1]}</div></div></div>`).join('');
+  $('gtot').textContent=v('total');
+  $('gf').textContent=d&&d.file?'📄 '+d.file+(cached?' (saved)':''):'No file yet — run the automation';
+}
+async function loadGuide(){
+  let why='';
+  try{
+    const r=await fetch(BR+'/latest',{signal:AbortSignal.timeout(4000)});
+    if(r.status===404)why='Bridge is running an old version. Close all python processes, then start the bridge again.';
+    else{
+      const d=await r.json();
+      if(r.ok&&d.file){localStorage.setItem(GK,JSON.stringify(d));drawGuide(d,false);$('gwhy').hidden=true;return}
+      why=d.error?'Could not read the Excel file: '+d.error:'No .xlsx report found in the folder yet. Run the automation first.';
+    }
+  }catch(e){why='Bridge is offline, so counts cannot be read.'}
+  let c=null;try{c=JSON.parse(localStorage.getItem(GK))}catch(x){}
+  drawGuide(c,true);const w=$('gwhy');w.textContent='⚠ '+why;w.hidden=false}
 
 async function load(manual){
   const L=$('list');
@@ -194,10 +245,10 @@ async function load(manual){
 addEventListener('keydown',e=>{if(e.code==='Space'&&!/INPUT|TEXTAREA|BUTTON/.test(e.target.tagName)&&!$('sop').classList.contains('s')){e.preventDefault();start()}if(e.key==='Escape')sop(0)});
 addEventListener('beforeinstallprompt',e=>{e.preventDefault();dp=e;$('install').hidden=false});
 $('install').onclick=async()=>{dp.prompt();await dp.userChoice;$('install').hidden=true};
-document.addEventListener('visibilitychange',()=>{if(!document.hidden){pulse();load()}});
-if('serviceWorker'in navigator&&location.protocol.startsWith('http'))navigator.serviceWorker.register('/sw.js').catch(()=>{});
+document.addEventListener('visibilitychange',()=>{if(!document.hidden){pulse();load();loadGuide()}});
+if('serviceWorker'in navigator&&location.protocol.startsWith('http'))navigator.serviceWorker.register('sw.js').catch(()=>{});
 log('System ready. Press Launch automation to begin.','#6b8f82');
-pulse();load();setInterval(pulse,5000);setInterval(()=>{if(!running)load()},15000);
+pulse();load();loadGuide();setInterval(pulse,5000);setInterval(()=>{if(!running)load()},15000);
 </script>
 </body>
 </html>
