@@ -85,7 +85,7 @@ h2{font-size:21px;letter-spacing:-.4px;margin:4px 0 4px}
 .sheet{width:44px;height:58px;flex:none;margin:0 10px 10px 0;background:#fff;border:1.5px solid var(--cl);border-radius:5px;padding:9px 7px;display:flex;flex-direction:column;gap:5px;box-shadow:5px 5px 0 -1px #fff,5px 5px 0 0 var(--cl),10px 10px 0 -1px #fff,10px 10px 0 0 var(--cl)}
 .sheet i{height:3px;border-radius:2px;background:var(--cl);opacity:.3}.sheet i:first-child{opacity:1;width:60%}
 .cnt{font-size:30px;font-weight:800;line-height:1;color:var(--cl);letter-spacing:-1px}
-.lb{font-size:12px;color:var(--m);font-weight:600;margin-top:4px}
+.lb{font-size:18px;color:#25747d;font-weight:800;margin-top:4px}
 .ar{align-self:center;color:#94a3b8;font-size:22px}
 .tot{display:flex;justify-content:space-between;align-items:center;padding:12px 16px;border-radius:12px;background:#ecfdf5;border:1px solid #a7f3d0;font-weight:700;color:var(--gd)}
 .tot b{font-size:22px;letter-spacing:-.5px}
@@ -206,7 +206,7 @@ async function start(){
 const GK='autolab_guide';
 function drawGuide(d,cached){
   const v=k=>d&&d[k]!=null?d[k]:'—';
-  const T=[['','Indoor CBC papers','indoor'],['b','Outdoor CBC papers','outdoor'],['c','Only PBF papers','pbf']];
+  const T=[['','Indoor CBC','indoor'],['b','Outdoor CBC','outdoor'],['c','Only PBF','pbf']];
   $('flow').innerHTML=T.map((t,i)=>(i?'<div class="ar">›</div>':'')+`<div class="pk ${t[0]}"><span class="no">${i+1}</span><div class="sheet"><i></i><i></i><i></i></div><div><div class="cnt">${v(t[2])}</div><div class="lb">${t[1]}</div></div></div>`).join('');
   $('gtot').textContent=v('total');
   $('gf').textContent=d&&d.file?'📄 '+d.file+(cached?' (saved)':''):'No file yet — run the automation';
